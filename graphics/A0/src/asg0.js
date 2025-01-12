@@ -1,3 +1,7 @@
+// Keshav Dubey
+// nidubey@ucsc.edu
+// https://lfer58.github.io/landing-page/graphics/A0/asg0.html
+
 // DrawRectangke.js
 function main() {
     // Retrieve <canvas> element
