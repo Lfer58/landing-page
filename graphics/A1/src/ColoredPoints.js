@@ -149,6 +149,7 @@ function click(ev) {
       point = new Circle();
       point.segments = g_segments;
     }
+    point.size = g_size;
     point.position = [x,y];
     point.color = g_selectedColor.slice();
     g_shapesList.push(point);
