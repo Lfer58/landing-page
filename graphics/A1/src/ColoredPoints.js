@@ -74,6 +74,7 @@ let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_size = 10.0;
 let g_selectedType = POINT;
 let g_segments = 10;
+let g_preserve = false;
 
 function addActionsForHtmlUI() {
 
@@ -87,6 +88,7 @@ function addActionsForHtmlUI() {
   document.getElementById('triangle').onclick = function() { g_selectedType = TRIANGLE; g_vertices = [];}
   document.getElementById('circle').onclick = function() { g_selectedType = CIRCLE; g_vertices = [];}
   document.getElementById('custri').onclick = function() { g_selectedType = CUSTOM_TRI; g_vertices = [];}
+  document.getElementById('pointres').onclick = function() { g_preserve = !g_preserve; g_vertices = [];}
   
   // Color Slider events
   document.getElementById('redSlide').addEventListener('mouseup', function() { g_selectedColor[0] = this.value/100; });
@@ -156,12 +158,16 @@ function click(ev) {
     if (g_vertices.length != 6) {
       g_vertices.push(x);
       g_vertices.push(y);
-      console.log(g_vertices);
       if (g_vertices.length == 6) {
         point = new TriangleMod()
         point.vertices = g_vertices.slice();
         point.color = g_selectedColor.slice();
-        g_vertices = [];
+
+        if (g_preserve) {
+          g_vertices = g_vertices.slice(2,6);
+        } else {
+          g_vertices = [];
+        }
         g_shapesList.push(point);
       }
     } 
