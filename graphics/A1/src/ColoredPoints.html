@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8" />
+    <title>Draw a point (1)</title>
+    </head>
+
+    <body onload="main()">
+        <canvas id="webgl" width="400" height="400">
+            Please use the browser supporting "canvas".
+        </canvas>
+        <p>
+
+        <p id="numdot"> XXX </p>
+
+        <button type="button" id="green"> Green</button>
+        <button type="button" id="red"> Red</button>
+        <button type="button" id="clear"> Clear</button>
+        <button type="button" id="image"> Image</button>
+
+        <p>
+        <button type="button" id="point">Point</button>
+        <button type="button" id="triangle">Triangle</button>
+        <button type="button" id="circle">Circle</button>
+        <p>
+        <button type="button" id="custri">Custom Triangle</button>
+        Click anywhere 3 times to form a triangle.
+
+        <p>
+        Red <input type="range" min="0" max="100" value="100" class="slider" id="redSlide">
+        <p>
+        Green <input type="range" min="0" max="100" value="100" class="slider" id="greenSlide">
+        <p>
+        Blue <input type="range" min="0" max="100" value="100" class="slider" id="blueSlide">
+
+        <p>
+        Size <input type="range" min="5" max="40" value="10" class="slider" id="sizeSlide">
+        Circle Segments <input type="range" min="8" max="20" value="10" class="slider" id="segmentSlide">
+        <p>
+        
+        <script src="../libs/webgl-utils.js"></script>
+        <script src="../libs/webgl-debug.js"></script>
+        <script src="../libs/cuon-utils.js"></script>
+        <script src="ColoredPoints.js"></script>
+        <script src="Point.js"></script>
+        <script src="Triangle.js"></script>
+        <script src="Circle.js"></script>
+        <script src="TriangleMod.js"></script>
+    </body>
+</html>
