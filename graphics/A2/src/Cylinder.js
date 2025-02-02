@@ -1,7 +1,7 @@
 class Cylinder {
-  constructor() {
+  constructor(color) {
     this.type = 'cylinder';
-    this.color = [1.0, 1.0, 1.0, 1.0];
+    this.color = color;
     this.matrix = new Matrix4();
     this.segments = 20;
 

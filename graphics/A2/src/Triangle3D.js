@@ -1,7 +1,7 @@
 class Triangle3D {
-  constructor() {
+  constructor(color) {
     this.type = 'triangle_3d';
-    this.color = [1.0, 1.0, 1.0, 1.0];
+    this.color = color;
     this.matrix = new Matrix4();
 
     this.buffer = null;

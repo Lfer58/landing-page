@@ -1,7 +1,7 @@
 class CubeMod {
-  constructor() {
+  constructor(color) {
     this.type = 'cube_mod';
-    this.color = [1.0, 1.0, 1.0, 1.0];
+    this.color = color;
     this.matrix = new Matrix4();
 
     this.buffer = null;

@@ -1,7 +1,7 @@
 class RoundedCube {
-  constructor() {
+  constructor(color) {
     this.type = 'cube_mod_round';
-    this.color = [1.0, 1.0, 1.0, 1.0];
+    this.color = color;
     this.matrix = new Matrix4();
     this.segments = 10;
     this.modify_color = true;
