@@ -1,0 +1,130 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8" />
+    <title>Draw a point (1)</title>
+    </head>
+
+    <body onload="main()">
+        <div class="container">
+            <canvas id="webgl" width="800" height="800">
+                Please use a browser that supports "canvas".
+            </canvas>
+            
+            <div class="controls">
+                <label>Right Arm Control</label>
+                Shoulder Movement  <input type="range" min="0" max="90" value="30" class="slider" id="ra_sho_mov">
+                Shoulder Rotation<input type="range" min="0" max="360" value="50" class="slider"  id="ra_sho_rot">
+                Elbow Movement<input type="range" min="0" max="70" value="60" class="slider"      id="ra_elb_mov">
+                Wrist Movement<input type="range" min="0" max="90" value="0" class="slider"       id="ra_wrt_mov">
+                Wrist Rotation<input type="range" min="0" max="90" value="0" class="slider"       id="ra_wrt_rot">
+
+                <br>
+                <label>Left Whisker Control</label>
+                Whisker Rotation Main  <input type="range" min="-50" max="25" value="0" class="slider" id="lw_rot">
+                Whisker Rotation 1  <input type="range" min="20" max="120" value="50" class="slider" id="lw_rot_1">
+                Whisker Movement  <input type="range" min="-40" max="40" value="10" class="slider" id="lw_mov">
+            </div>
+
+            <div class="controls">
+                <label>Left Arm Control</label>
+                Shoulder Movement  <input type="range" min="0" max="90" value="30" class="slider" id="la_sho_mov">
+                Shoulder Rotation<input type="range" min="0" max="360" value="50" class="slider"  id="la_sho_rot">
+                Elbow Movement<input type="range" min="0" max="70" value="60" class="slider"      id="la_elb_mov">
+                Wrist Movement<input type="range" min="0" max="90" value="0" class="slider"       id="la_wrt_mov">
+                Wrist Rotation<input type="range" min="0" max="90" value="0" class="slider"       id="la_wrt_rot">
+
+                <br>
+                <label>Right Whisker Control</label>
+                Whisker Rotation Main  <input type="range" min="-50" max="25" value="0" class="slider" id="rw_rot">
+                Whisker Rotation 1  <input type="range" min="20" max="120" value="90" class="slider" id="rw_rot_1">
+                Whisker Movement  <input type="range" min="-40" max="40" value="10" class="slider" id="rw_mov">
+            </div>
+
+            <div class="controls">
+                <label>Left Leg Control</label>
+                Shoulder Movement  <input type="range" min="0" max="90" value="30" class="slider" id="ll_sho_mov">
+                Shoulder Rotation<input type="range" min="0" max="360" value="50" class="slider"  id="ll_sho_rot">
+                Elbow Movement<input type="range" min="0" max="70" value="50" class="slider"      id="ll_elb_mov">
+                Wrist Movement<input type="range" min="0" max="90" value="0" class="slider"       id="ll_wrt_mov">
+                Wrist Rotation<input type="range" min="0" max="90" value="70" class="slider"      id="ll_wrt_rot">
+
+                <br>
+                <label>Body Control</label>
+                Starting Height  <input type="range" min="-40" max="100" value="-40" class="slider" id="st_hgt">
+                Body Twist  <input type="range" min="-45" max="45" value="0" class="slider" id="st_twt">
+                Tail Height  <input type="range" min="-10" max="10" value="-10" class="slider" id="ta_hgt">
+                Overall Rotation  <input type="range" min="0" max="360" value="0" class="slider" id="ov_rot">
+                Circle Spread  <input type="range" min="60" max="120" value="60" class="slider" id="in_rad">
+            </div>
+
+            <div class="controls">
+                <label>Right Leg Control</label>
+                Shoulder Movement  <input type="range" min="0" max="90" value="0" class="slider" id="rl_sho_mov">
+                Shoulder Rotation<input type="range" min="0" max="360" value="50" class="slider"  id="rl_sho_rot">
+                Elbow Movement<input type="range" min="0" max="70" value="50" class="slider"      id="rl_elb_mov">
+                Wrist Movement<input type="range" min="0" max="90" value="0" class="slider"       id="rl_wrt_mov">
+                Wrist Rotation<input type="range" min="0" max="90" value="70" class="slider"      id="rl_wrt_rot">
+
+                <label>Head Control</label>
+                Twist  <input type="range" min="-30" max="30" value="0" class="slider" id="hd_twt">
+                Shake  <input type="range" min="-30" max="30" value="0" class="slider" id="hd_shk">
+                Nod  <input type="range" min="-20" max="20" value="0" class="slider"   id="hd_nod">
+            </div>
+        </div>        
+
+        <p>
+
+        <p id="numdot"> XXX </p>
+            <button type="button" id="clear"> Clear</button>
+
+        <p>
+            <!-- <button type="button" id="point">Point</button>
+            <button type="button" id="triangle">Triangle</button>
+            <button type="button" id="circle">Circle</button> -->
+            <button type="button" id="resRot"> Reset View</button>
+            <button type="button" id="topView"> Top View</button>
+            <button type="button" id="leftView"> Left View</button>
+            <button type="button" id="backView"> Back View</button>
+
+        <p>    
+            <button type="button" id="onP">Animation On</button>
+            <button type="button" id="offP">Animation Off</button>
+
+        <p>
+        Rotation Sensitivity <input type="range" min="1" max="4" value="1" class="slider" id="rotationFactor">
+        
+        <script src="../libs/webgl-utils.js"></script>
+        <script src="../libs/cuon-matrix.js"></script>
+        <script src="../libs/webgl-debug.js"></script>
+        <script src="../libs/cuon-utils.js"></script>
+        <script src="BlockAnimal.js"></script>
+        <script src="Point.js"></script>
+        <script src="Triangle.js"></script>
+        <script src="Circle.js"></script>
+        <script src="CubeMod.js"></script>
+        <script src="RoundedCube.js"></script>
+        <script src="Triangle3D.js"></script>
+        <script src="Cylinder.js"></script>
+    </body>
+
+    <style>
+        .container {
+            display: flex;         /* Use Flexbox */
+            align-items: flex-start; /* Align items to the top */
+        }
+    
+        canvas {
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+    
+        .controls {
+            display: flex;
+            flex-direction: column;
+            margin-left: 20px; /* Add space between canvas and sliders */
+            gap: 10px; /* Space between sliders */
+        }
+    </style>
+</html>
