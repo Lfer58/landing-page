@@ -1745,7 +1745,7 @@ function renderAllShapes() {
 
 
   var duration = performance.now() - startTime;
-  sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(10000/duration), 'numdot');
+  sendTextToHTML(" ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration), 'numdot');
 }
 
 // Set the text of a html element
