@@ -26,13 +26,13 @@ class CubeMod {
 
     {
     // Back of cube
-    this.vertices.push(...b_lb, 1,0); 
-    this.vertices.push(...b_rb, 1,1); 
-    this.vertices.push(...t_rb, 0,1);
+    this.vertices.push(...b_lb, 0,0); 
+    this.vertices.push(...b_rb, 1,0); 
+    this.vertices.push(...t_rb, 1,1);
 
-    this.vertices.push(...b_lb, 1,0);
-    this.vertices.push(...t_lb, 0,0);
-    this.vertices.push(...t_rb, 0,1);
+    this.vertices.push(...b_lb, 0,0);
+    this.vertices.push(...t_lb, 0,1);
+    this.vertices.push(...t_rb, 1,1);
 
     //left of cube
     this.vertices.push(...b_lf, 1,0);

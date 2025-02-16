@@ -3,24 +3,85 @@ class Camera {
     this.type = 'camera';
     this.projMat = new Matrix4();
     this.viewMat = new Matrix4();
-    this.g_eye = [0,0,-5];
-    this.g_at = [0,0,95];
+    this.startingHeight = 0.6;
+    this.g_eye = [0,this.startingHeight,-4.5];
+    this.g_at = [0,this.startingHeight,95.5];
     this.g_up = [0,1,0];
-    this.speed = 0.05;
-    this.cameraSpeed = 1.5;
+    this.speed = 0.1;
+    this.cameraSpeed = 1.25;
+    this.targetThreshold = 6;
+    this.actualHeight = this.startingHeight;
 
-    this.projMat.setPerspective(90, canvas.width/canvas.height, 1, 100);
+    this.projMat.setPerspective(50, canvas.width/canvas.height, 0.01, 100);
     this.projMat.scale(-1, 1, 1); // Flip X-axis back
 
     this.viewMat.setLookAt(...this.g_eye, ...this.g_at, ...this.g_up); // (eye, at, up)
   }
 
+  clickTarget() {
+    var d = new Vector3(this.g_at);
+    var vg_eye = new Vector3(this.g_eye);
+
+    d.sub(vg_eye);
+
+    d.normalize();
+
+    var target_vectors = []
+
+    var temp = new Vector3(d.elements);
+
+    // Doubled temp and reduced mul factor to account for halved cubes
+    for (var i = 0; i < this.targetThreshold * 2; i++ ) {
+      target_vectors[i] = temp.mul(0.5 * (i + 1)).elements;
+      temp = new Vector3(d.elements);
+    }
+
+    return target_vectors;
+  }
+
   resetView() {
-    this.g_eye = [0,0,-5];
-    this.g_at = [0,0,100];
-    this.g_up = [0,1,0];
+    this.g_eye = [0,this.startingHeight,-4.5];
+    this.g_at = [0,this.startingHeight,95.5];
 
     this.viewMat.setLookAt(...this.g_eye, ...this.g_at, ...this.g_up); // (eye, at, up)
+  }
+
+  mapCheck(c) {
+    var c_Xcoords = Math.round(c[0] * 2);
+    var c_Zcoords = Math.round(c[2] * 2);
+
+    // console.log( mapMatrix[c_Xcoords + 50][c_Zcoords + 50]);
+
+    var map_output_1 = mapMatrix[c_Xcoords + 50][c_Zcoords + 50][0];
+    var map_output_2 = mapMatrix[c_Xcoords + 50][c_Zcoords + 50][1];
+
+    if (map_output_1 === 1) {
+
+      this.g_eye[1] = this.actualHeight;
+      this.g_eye[1] += this.speed * 0.9 * Math.abs(Math.sin(2 * g_seconds * Math.PI));
+
+      this.viewMat.setLookAt(...this.g_eye, ...this.g_at, ...this.g_up); // (eye, at, up)
+
+      return null;
+      c[2] -= ortho_v.elements[2];
+      ortho_v[2] = 0;
+
+    } else if (map_output_1 === 2) {
+      let targetHeight = map_output_2; // New stair height
+      let stepSpeed = 0.5; // Speed of transition (adjust as needed)
+
+      // Smoothly interpolate height
+      this.actualHeight += (targetHeight - this.actualHeight) * stepSpeed;
+
+      return 1;
+    } else {
+      let targetHeight = this.startingHeight; // New stair height
+      let stepSpeed = 0.5; // Speed of transition (adjust as needed)
+
+      // Smoothly interpolate height
+      this.actualHeight += (targetHeight - this.actualHeight) * stepSpeed;
+      return 1;
+    }
   }
 
   moveZAxis(direction) {
@@ -29,16 +90,36 @@ class Camera {
     var d = new Vector3(this.g_at);
     var vg_eye = new Vector3(this.g_eye);
 
-
     d.sub(vg_eye);
 
+    d.elements[1] = 0;
     d.normalize();
     
     // positive is forward
     d.mul(direction * this.speed);
 
-    this.g_eye = vg_eye.add(d).elements;
+    var c = vg_eye.add(d).elements;
+
+    if (this.mapCheck(c) === null) {
+      return;
+    }
+
+    this.g_eye = c;
     this.g_at = vg_at.add(d).elements;
+
+    this.g_eye[1] = this.actualHeight;
+    this.g_eye[1] += this.speed * Math.abs(Math.sin(2 * g_seconds * Math.PI));
+
+    this.viewMat.setLookAt(...this.g_eye, ...this.g_at, ...this.g_up); // (eye, at, up)
+
+    // console.log(Math.round(this.g_eye[0] * 2) / 2, Math.round(this.g_eye[2] * 2) / 2);
+  }
+
+  moveYAxis(direction) {
+
+    this.g_eye[1] += direction * this.speed;
+    this.g_at[1] += direction * this.speed;
+    this.actualHeight = this.g_eye[1];
 
     this.viewMat.setLookAt(...this.g_eye, ...this.g_at, ...this.g_up); // (eye, at, up)
   }
@@ -59,15 +140,25 @@ class Camera {
 
     // positive is left
     ortho_v.mul(direction * this.speed);
+    ortho_v.elements[1] = 0;
 
+    var c = vg_eye.add(ortho_v).elements;
 
-    this.g_eye = vg_eye.add(ortho_v).elements;
+    if (this.mapCheck(c) === null) {
+      return;
+    }
+
+    this.g_eye = c;
     this.g_at = vg_at.add(ortho_v).elements;
 
+    this.g_eye[1] = this.actualHeight;
+    this.g_eye[1] += this.speed * 0.9 * Math.abs(Math.sin(2 * g_seconds * Math.PI));
+
     this.viewMat.setLookAt(...this.g_eye, ...this.g_at, ...this.g_up); // (eye, at, up)
+    // console.log(Math.round(this.g_eye[0] * 2) / 2, Math.round(this.g_eye[2] * 2) / 2);
   }
 
-  panHorizontal(direction) {
+  panHorizontal(direction, speed) {
     var d = new Vector3(this.g_at);
     var vg_eye = new Vector3(this.g_eye);
 
@@ -78,36 +169,34 @@ class Camera {
     var theta = Math.atan2(d.elements[2], d.elements[0]);
 
     // positive is left
-    theta = theta + direction * this.cameraSpeed * (Math.PI / 180);
+    theta = theta + direction * this.cameraSpeed * Math.abs(speed) / 10 * (Math.PI / 180);
 
     var new_x = radius * Math.cos(theta);
     var new_z = radius * Math.sin(theta);
 
-    d = new Vector3 ([new_x, this.g_at[1], new_z]);
+    d = new Vector3 ([new_x, d.elements[1], new_z]);
 
     this.g_at = vg_eye.add(d).elements;
-
-    console.log(this.g_at);
 
     this.viewMat.setLookAt(...this.g_eye, ...this.g_at, ...this.g_up); // (eye, at, up)
 
   }
 
   // fix it
-  panVertical(direction) {
+  panVertical(direction, speed) {
 
     var d = new Vector3(this.g_at);
     var vg_eye = new Vector3(this.g_eye);
 
     d.sub(vg_eye);
 
-    var radius = Math.sqrt(d.elements[0] ** 2 + d.elements[1] ** 2 + d.elements[2]**2)
-    var radiusXZ = Math.sqrt(d.elements[0] ** 2 + d.elements[2]**2)
+    var radius = d.magnitude();
+    var radiusXZ = Math.sqrt(d.elements[0] ** 2 + d.elements[2]**2);
 
     var theta = Math.atan2(d.elements[1], radiusXZ);
 
     // positive is up
-    theta = theta + direction * this.cameraSpeed * (Math.PI / 180);
+    theta = theta + direction * this.cameraSpeed * Math.abs(speed) / 10 * (Math.PI / 180);
 
     // Clamp theta between -90 and 90 degrees
     theta = Math.max(-Math.PI / 2 + 0.05, Math.min(Math.PI / 2 - 0.05, theta));
@@ -118,11 +207,140 @@ class Camera {
     d.elements[0] *= new_radiusXZ / radiusXZ
     d.elements[2] *= new_radiusXZ / radiusXZ
 
-    console.log("d", d.elements);
-
     this.g_at = vg_eye.add(d).elements;
 
     this.viewMat.setLookAt(...this.g_eye, ...this.g_at, ...this.g_up); // (eye, at, up)
 
+  }
+}
+
+function mouseHandler() {
+  // Register function (event handler) to be called on a mouse press
+  canvas.onmousedown = click;
+
+  canvas.onmousemove = function(ev) {mouseMove(ev)};
+
+  // canvas.onwheel = function(ev) {
+  //   ev.preventDefault(); // Prevent page scrolling
+  //   handleScroll(ev);
+  // };
+}
+
+function keydown(ev) {
+  let key = ev.key;
+
+  keys[key] = true;
+  renderAllShapes();
+}
+
+function keyup(ev) {
+  keys[ev.key] = false;
+}
+
+function handleScroll(ev) {
+  if (ev.deltaY < 0) {
+
+    g_globalScale += 0.01;
+  } else {
+
+    // scale down when scrolling down
+    g_globalScale -= 0.01;
+  }
+
+  renderAllShapes();
+}
+
+function click(ev) {
+
+  [x, y] = converCoordinatesEventToGL(ev);
+
+  // angleUpdater(x,y, g_rotation_factor, ev);
+
+  if (document.pointerLockElement === canvas) {
+    if (ev.buttons === 1) {
+      initalizeTargetVec(0);
+    } else if (ev.buttons === 2) {
+      initalizeTargetVec(1);
+    }
+  }
+
+  canvas.requestPointerLock();
+
+  //Draw eveyr shape that is supposed to be in the canvas
+  renderAllShapes();
+}
+
+function mouseMove(ev) {
+
+  if (ev.buttons === 1) {
+    initalizeTargetVec(0);
+  } else if (ev.buttons === 2) {
+    initalizeTargetVec(1);
+  }
+
+  target_vectors = camera.clickTarget();
+
+  if (document.pointerLockElement === canvas) {
+    if (ev.movementX > 0) {
+      camera.panHorizontal(-1, ev.movementX);
+    } else if (ev.movementX < 0) {
+      camera.panHorizontal(1, ev.movementX);
+    }
+  
+    if (ev.movementY > 0) {
+      camera.panVertical(-1, ev.movementY);
+    } else if (ev.movementY < 0) {
+      camera.panVertical(1, ev.movementY);
+    }
+  }
+}
+
+function converCoordinatesEventToGL(ev) {
+  var x = ev.clientX; // x coordinate of a mouse pointer
+  var y = ev.clientY; // y coordinate of a mouse pointer
+  var rect = ev.target.getBoundingClientRect();
+
+  x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
+  y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
+
+  return([x,y]);
+
+}
+
+function keyHandler() {
+  if (keys["Escape"] && document.pointerLockElement === canvas) {
+    // Exit pointer lock on ESC key
+    document.exitPointerLock();
+  }
+
+  if (keys["w"]) {
+    camera.moveZAxis(1);
+  } 
+  if (keys["s"]) {
+    camera.moveZAxis(-1);
+  } 
+  if (keys["a"]) {
+    camera.moveHorizontal(1);
+  } 
+  if (keys["d"]) {
+    camera.moveHorizontal(-1);
+  }
+  // if (keys["q"]) {
+  //   camera.panHorizontal(1);
+  // }
+  // if (keys["e"]) {
+  //   camera.panHorizontal(-1);
+  // }
+  // if (keys["z"]) {
+  //   camera.panVertical(1);
+  // }
+  // if (keys["x"]) {
+  //   camera.panVertical(-1);
+  // }
+  if (keys["o"]) {
+    camera.moveYAxis(1);
+  }
+  if (keys["p"]) {
+    camera.moveYAxis(-1);
   }
 }
