@@ -5,7 +5,7 @@ class CubeMod {
     this.matrix = new Matrix4();
 
     this.vertices = [];
-    this.textureNum = 0;
+    this.textureNum = -2;
     this.buffer = null;
 
     let [x,y,z] = [0.5,0.5,0.5]

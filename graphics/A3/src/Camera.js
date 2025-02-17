@@ -7,15 +7,40 @@ class Camera {
     this.g_eye = [0,this.startingHeight,-4.5];
     this.g_at = [0,this.startingHeight,95.5];
     this.g_up = [0,1,0];
-    this.speed = 0.1;
+    this.speed = 0.25;
     this.cameraSpeed = 1.25;
     this.targetThreshold = 6;
     this.actualHeight = this.startingHeight;
+    this.health = 50;
+    this.lastDamageTime = 0;
+    this.ammo = 20;
 
     this.projMat.setPerspective(50, canvas.width/canvas.height, 0.01, 100);
     this.projMat.scale(-1, 1, 1); // Flip X-axis back
 
     this.viewMat.setLookAt(...this.g_eye, ...this.g_at, ...this.g_up); // (eye, at, up)
+
+    this.hurt = new Audio("../sounds/dsoof.wav"); // Change path if needed
+    this.hurt.volume = 0.5; // Adjust volume if necessary
+  }
+
+  damagePlayer(enemyDamage, enemyPos) {
+    
+    var d = new Vector3([enemyPos[0], 0, enemyPos[2]]);
+    var player = new Vector3([this.g_eye[0], 0, this.g_eye[2]]);
+
+    d.sub(player);
+
+    var distance = d.magnitude();
+
+    let damageCooldown = 0.5; 
+
+    if (distance < 0.3 && g_seconds - this.lastDamageTime > damageCooldown) {
+      this.health -= enemyDamage;
+      this.lastDamageTime = g_seconds;
+      this.hurt.currentTime = 0; // Reset sound to start
+      this.hurt.play(); // Play sound on firing
+    }
   }
 
   clickTarget() {
@@ -52,30 +77,21 @@ class Camera {
 
     // console.log( mapMatrix[c_Xcoords + 50][c_Zcoords + 50]);
 
-    var map_output_1 = mapMatrix[c_Xcoords + 50][c_Zcoords + 50][0];
-    var map_output_2 = mapMatrix[c_Xcoords + 50][c_Zcoords + 50][1];
+    var map_output_1 = mapMatrix[c_Xcoords + 100][c_Zcoords + 100][0];
+    var map_output_2 = mapMatrix[c_Xcoords + 100][c_Zcoords + 100][1];
 
     if (map_output_1 === 1) {
 
       this.g_eye[1] = this.actualHeight;
-      this.g_eye[1] += this.speed * 0.9 * Math.abs(Math.sin(2 * g_seconds * Math.PI));
+      this.g_eye[1] += this.speed * Math.abs(Math.sin(2 * g_seconds * Math.PI));
 
       this.viewMat.setLookAt(...this.g_eye, ...this.g_at, ...this.g_up); // (eye, at, up)
 
       return null;
-      c[2] -= ortho_v.elements[2];
-      ortho_v[2] = 0;
 
-    } else if (map_output_1 === 2) {
-      let targetHeight = map_output_2; // New stair height
-      let stepSpeed = 0.5; // Speed of transition (adjust as needed)
-
-      // Smoothly interpolate height
-      this.actualHeight += (targetHeight - this.actualHeight) * stepSpeed;
-
-      return 1;
     } else {
-      let targetHeight = this.startingHeight; // New stair height
+
+      let targetHeight = map_output_2; // reset to base height
       let stepSpeed = 0.5; // Speed of transition (adjust as needed)
 
       // Smoothly interpolate height
@@ -152,7 +168,7 @@ class Camera {
     this.g_at = vg_at.add(ortho_v).elements;
 
     this.g_eye[1] = this.actualHeight;
-    this.g_eye[1] += this.speed * 0.9 * Math.abs(Math.sin(2 * g_seconds * Math.PI));
+    this.g_eye[1] += this.speed * Math.abs(Math.sin(2 * g_seconds * Math.PI));
 
     this.viewMat.setLookAt(...this.g_eye, ...this.g_at, ...this.g_up); // (eye, at, up)
     // console.log(Math.round(this.g_eye[0] * 2) / 2, Math.round(this.g_eye[2] * 2) / 2);
@@ -211,136 +227,5 @@ class Camera {
 
     this.viewMat.setLookAt(...this.g_eye, ...this.g_at, ...this.g_up); // (eye, at, up)
 
-  }
-}
-
-function mouseHandler() {
-  // Register function (event handler) to be called on a mouse press
-  canvas.onmousedown = click;
-
-  canvas.onmousemove = function(ev) {mouseMove(ev)};
-
-  // canvas.onwheel = function(ev) {
-  //   ev.preventDefault(); // Prevent page scrolling
-  //   handleScroll(ev);
-  // };
-}
-
-function keydown(ev) {
-  let key = ev.key;
-
-  keys[key] = true;
-  renderAllShapes();
-}
-
-function keyup(ev) {
-  keys[ev.key] = false;
-}
-
-function handleScroll(ev) {
-  if (ev.deltaY < 0) {
-
-    g_globalScale += 0.01;
-  } else {
-
-    // scale down when scrolling down
-    g_globalScale -= 0.01;
-  }
-
-  renderAllShapes();
-}
-
-function click(ev) {
-
-  [x, y] = converCoordinatesEventToGL(ev);
-
-  // angleUpdater(x,y, g_rotation_factor, ev);
-
-  if (document.pointerLockElement === canvas) {
-    if (ev.buttons === 1) {
-      initalizeTargetVec(0);
-    } else if (ev.buttons === 2) {
-      initalizeTargetVec(1);
-    }
-  }
-
-  canvas.requestPointerLock();
-
-  //Draw eveyr shape that is supposed to be in the canvas
-  renderAllShapes();
-}
-
-function mouseMove(ev) {
-
-  if (ev.buttons === 1) {
-    initalizeTargetVec(0);
-  } else if (ev.buttons === 2) {
-    initalizeTargetVec(1);
-  }
-
-  target_vectors = camera.clickTarget();
-
-  if (document.pointerLockElement === canvas) {
-    if (ev.movementX > 0) {
-      camera.panHorizontal(-1, ev.movementX);
-    } else if (ev.movementX < 0) {
-      camera.panHorizontal(1, ev.movementX);
-    }
-  
-    if (ev.movementY > 0) {
-      camera.panVertical(-1, ev.movementY);
-    } else if (ev.movementY < 0) {
-      camera.panVertical(1, ev.movementY);
-    }
-  }
-}
-
-function converCoordinatesEventToGL(ev) {
-  var x = ev.clientX; // x coordinate of a mouse pointer
-  var y = ev.clientY; // y coordinate of a mouse pointer
-  var rect = ev.target.getBoundingClientRect();
-
-  x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
-  y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
-
-  return([x,y]);
-
-}
-
-function keyHandler() {
-  if (keys["Escape"] && document.pointerLockElement === canvas) {
-    // Exit pointer lock on ESC key
-    document.exitPointerLock();
-  }
-
-  if (keys["w"]) {
-    camera.moveZAxis(1);
-  } 
-  if (keys["s"]) {
-    camera.moveZAxis(-1);
-  } 
-  if (keys["a"]) {
-    camera.moveHorizontal(1);
-  } 
-  if (keys["d"]) {
-    camera.moveHorizontal(-1);
-  }
-  // if (keys["q"]) {
-  //   camera.panHorizontal(1);
-  // }
-  // if (keys["e"]) {
-  //   camera.panHorizontal(-1);
-  // }
-  // if (keys["z"]) {
-  //   camera.panVertical(1);
-  // }
-  // if (keys["x"]) {
-  //   camera.panVertical(-1);
-  // }
-  if (keys["o"]) {
-    camera.moveYAxis(1);
-  }
-  if (keys["p"]) {
-    camera.moveYAxis(-1);
   }
 }

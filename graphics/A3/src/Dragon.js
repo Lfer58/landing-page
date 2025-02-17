@@ -1,11 +1,6 @@
 class Dragon {
   constructor() {
     this.type = 'dragon';
-    // this.color = color;
-    // this.matrix = new Matrix4();
-
-    // this.buffer = null;
-    // this.vertices = [];
   }
 
   render() {
@@ -189,7 +184,7 @@ class Dragon {
     lower_lip_side.render();
 
     baseMatrix = new Matrix4(lower_lip.matrix);
-    lower_lip_front = new RoundedCube(body_color);
+    let lower_lip_front = new RoundedCube(body_color);
     // lower_lip_front.color = body_color;
     lower_lip_front.matrix = baseMatrix;
     lower_lip_front.matrix.scale(0.5,1,1);
@@ -198,7 +193,7 @@ class Dragon {
     lower_lip_front.render();
     
     baseMatrix = new Matrix4(lower_lip.matrix);
-    lower_tip_top = new Triangle3D(accent_color_red);
+    let lower_tip_top = new Triangle3D(accent_color_red);
     // lower_tip_top.color = accent_color_red;
     lower_tip_top.matrix = baseMatrix;
     lower_tip_top.matrix.rotate(90,0,1,0);
@@ -240,7 +235,7 @@ class Dragon {
     upper_lip_side.render();
 
     baseMatrix = new Matrix4(upper_lip.matrix);
-    upper_lift_front = new RoundedCube(body_color);
+    let upper_lift_front = new RoundedCube(body_color);
     // upper_lift_front.color = body_color;
     upper_lift_front.matrix = baseMatrix;
     upper_lift_front.matrix.scale(0.5,1,1);
@@ -249,7 +244,7 @@ class Dragon {
     upper_lift_front.render();
 
     baseMatrix = new Matrix4(upper_lip.matrix);
-    upper_lip_top = new Triangle3D(accent_color_yellow);
+    let upper_lip_top = new Triangle3D(accent_color_yellow);
     // upper_lip_top.color = accent_color_yellow;
     upper_lip_top.matrix = baseMatrix;
     upper_lip_top.matrix.rotate(-90,0,1,0);
@@ -1292,107 +1287,52 @@ class Dragon {
   }
 }
 
-// Elements/Variables for dragon
-// {
-// // Animation right arm
-// document.getElementById('ra_sho_mov').addEventListener('mousemove', function() { /* this.value = ra_sho_mov; */ ra_sho_mov = this.value; renderAllShapes(); });
-// document.getElementById('ra_sho_rot').addEventListener('mousemove', function() { /* this.value = ra_sho_rot; */ ra_sho_rot = this.value; renderAllShapes(); });
-// document.getElementById('ra_elb_mov').addEventListener('mousemove', function() { /* this.value = ra_elb_mov; */ ra_elb_mov = Number(this.value); renderAllShapes(); });
-// document.getElementById('ra_wrt_mov').addEventListener('mousemove', function() { /* this.value = ra_wrt_mov; */ ra_wrt_mov = this.value; renderAllShapes(); });
-// document.getElementById('ra_wrt_rot').addEventListener('mousemove', function() { /* this.value = ra_wrt_rot; */ ra_wrt_rot = this.value; renderAllShapes(); });
+// right_arm movement
+let ra_sho_mov = 30;
+let ra_sho_rot = 50;
+let ra_elb_mov = 60;
+let ra_wrt_mov = 0;
+let ra_wrt_rot = 0;
 
-// // Animation right arm
-// document.getElementById('rl_sho_mov').addEventListener('mousemove', function() { /* this.value = ra_sho_mov; */ rl_sho_mov = this.value; renderAllShapes(); });
-// document.getElementById('rl_sho_rot').addEventListener('mousemove', function() { /* this.value = ra_sho_rot; */ rl_sho_rot = this.value; renderAllShapes(); });
-// document.getElementById('rl_elb_mov').addEventListener('mousemove', function() { /* this.value = ra_elb_mov; */ rl_elb_mov = Number(this.value); renderAllShapes(); });
-// document.getElementById('rl_wrt_mov').addEventListener('mousemove', function() { /* this.value = ra_wrt_mov; */ rl_wrt_mov = this.value; renderAllShapes(); });
-// document.getElementById('rl_wrt_rot').addEventListener('mousemove', function() { /* this.value = ra_wrt_rot; */ rl_wrt_rot = this.value; renderAllShapes(); });
+// right_leg movement
+let rl_sho_mov = 0;
+let rl_sho_rot = 50;
+let rl_elb_mov = 60;
+let rl_wrt_mov = 0;
+let rl_wrt_rot = 0;
 
-// // Animation left arm
-// document.getElementById('la_sho_mov').addEventListener('mousemove', function() { /* this.value = la_sho_mov; */ la_sho_mov = Number(this.value); renderAllShapes(); });
-// document.getElementById('la_sho_rot').addEventListener('mousemove', function() { /* this.value = la_sho_rot; */ la_sho_rot = Number(this.value); renderAllShapes(); });
-// document.getElementById('la_elb_mov').addEventListener('mousemove', function() { /* this.value = la_elb_mov; */ la_elb_mov = Number(this.value); renderAllShapes(); });
-// document.getElementById('la_wrt_mov').addEventListener('mousemove', function() { /* this.value = la_wrt_mov; */ la_wrt_mov = Number(this.value); renderAllShapes(); });
-// document.getElementById('la_wrt_rot').addEventListener('mousemove', function() { /* this.value = la_wrt_rot; */ la_wrt_rot = Number(this.value); renderAllShapes(); });
+// left_arm movement
+let la_sho_mov = 30;
+let la_sho_rot = 50;
+let la_elb_mov = 60;
+let la_wrt_mov = 0;
+let la_wrt_rot = 0;
 
-// // Animation left leg
-// document.getElementById('ll_sho_mov').addEventListener('mousemove', function() { /* this.value = la_sho_mov; */ ll_sho_mov = Number(this.value); renderAllShapes(); });
-// document.getElementById('ll_sho_rot').addEventListener('mousemove', function() { /* this.value = la_sho_rot; */ ll_sho_rot = Number(this.value); renderAllShapes(); });
-// document.getElementById('ll_elb_mov').addEventListener('mousemove', function() { /* this.value = la_elb_mov; */ ll_elb_mov = Number(this.value); renderAllShapes(); });
-// document.getElementById('ll_wrt_mov').addEventListener('mousemove', function() { /* this.value = la_wrt_mov; */ ll_wrt_mov = Number(this.value); renderAllShapes(); });
-// document.getElementById('ll_wrt_rot').addEventListener('mousemove', function() { /* this.value = la_wrt_rot; */ ll_wrt_rot = Number(this.value); renderAllShapes(); });
+// left_leg movement
+let ll_sho_mov = 30;
+let ll_sho_rot = 50;
+let ll_elb_mov = 50;
+let ll_wrt_mov = 0;
+let ll_wrt_rot = 70;
 
-// // Animation left whisker
-// document.getElementById('lw_rot').addEventListener('mousemove', function() { /* this.value = la_sho_mov; */ lw_rot = Number(this.value); renderAllShapes(); });
-// document.getElementById('lw_rot_1').addEventListener('mousemove', function() { /* this.value = la_sho_mov; */ lw_rot_1 = Number(this.value); renderAllShapes(); });
-// document.getElementById('lw_mov').addEventListener('mousemove', function() { /* this.value = la_sho_mov; */ lw_mov = Number(this.value); console.log(lw_mov); renderAllShapes(); });
+// left whisker
+let lw_rot = 0;
+let lw_rot_1 = 50;
+let lw_mov = 10;
 
-// // Animation left whisker
-// document.getElementById('rw_rot').addEventListener('mousemove', function() { /* this.value = la_sho_mov; */ rw_rot = Number(this.value); renderAllShapes(); });
-// document.getElementById('rw_rot_1').addEventListener('mousemove', function() { /* this.value = la_sho_mov; */ rw_rot_1 = Number(this.value); renderAllShapes(); });
-// document.getElementById('rw_mov').addEventListener('mousemove', function() { /* this.value = la_sho_mov; */ rw_mov = Number(this.value); console.log(lw_mov); renderAllShapes(); });
+// right whisker
+let rw_rot = 0;
+let rw_rot_1 = 90;
+let rw_mov = 10;
 
-// // Body Animation
-// document.getElementById('st_hgt').addEventListener('mousemove', function() { /* this.value = st_hgt; */ st_hgt = Number(this.value); renderAllShapes(); });
-// document.getElementById('st_twt').addEventListener('mousemove', function() { /* this.value = st_twt; */ st_twt = Number(this.value); renderAllShapes(); });
-// document.getElementById('ta_hgt').addEventListener('mousemove', function() { /* this.value = ta_hgt; */ ta_hgt = Number(this.value); renderAllShapes(); });
-// document.getElementById('ov_rot').addEventListener('mousemove', function() { /* this.value = ov_rot; */ ov_rot = Number(this.value); renderAllShapes(); });
-// document.getElementById('in_rad').addEventListener('mousemove', function() { /* this.value = in_rad; */ in_rad = Number(this.value); renderAllShapes(); });
+// body control
+let st_hgt = -40;
+let st_twt = 0;
+let ta_hgt = -10;
+let ov_rot = 0;
+let in_rad = 60;
 
-// // Head Animation
-// document.getElementById('hd_twt').addEventListener('mousemove', function() { /* this.value = in_rad; */ hd_twt = Number(this.value); renderAllShapes(); });
-// document.getElementById('hd_shk').addEventListener('mousemove', function() { /* this.value = in_rad; */ hd_shk = Number(this.value); renderAllShapes(); });
-// document.getElementById('hd_nod').addEventListener('mousemove', function() { /* this.value = in_rad; */ hd_nod = Number(this.value); renderAllShapes(); });
-// }
-
-// {
-//   // right_arm movement
-// let ra_sho_mov = 30;
-// let ra_sho_rot = 50;
-// let ra_elb_mov = 60;
-// let ra_wrt_mov = 0;
-// let ra_wrt_rot = 0;
-
-// // right_leg movement
-// let rl_sho_mov = 0;
-// let rl_sho_rot = 50;
-// let rl_elb_mov = 60;
-// let rl_wrt_mov = 0;
-// let rl_wrt_rot = 0;
-
-// // left_arm movement
-// let la_sho_mov = 30;
-// let la_sho_rot = 50;
-// let la_elb_mov = 60;
-// let la_wrt_mov = 0;
-// let la_wrt_rot = 0;
-
-// // left_leg movement
-// let ll_sho_mov = 30;
-// let ll_sho_rot = 50;
-// let ll_elb_mov = 50;
-// let ll_wrt_mov = 0;
-// let ll_wrt_rot = 70;
-
-// // left whisker
-// let lw_rot = 0;
-// let lw_rot_1 = 50;
-// let lw_mov = 10;
-
-// // right whisker
-// let rw_rot = 0;
-// let rw_rot_1 = 90;
-// let rw_mov = 10;
-
-// // body control
-// let st_hgt = -40;
-// let st_twt = 0;
-// let ta_hgt = -10;
-// let ov_rot = 0;
-// let in_rad = 60;
-
-// // head control
-// let hd_twt = 0
-// let hd_shk = 0
-// let hd_nod = 0
-// }
+// head control
+let hd_twt = 0
+let hd_shk = 0
+let hd_nod = 0
