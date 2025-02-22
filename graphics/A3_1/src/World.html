@@ -1,0 +1,84 @@
+<!-- Keshav Dubey -->
+ <!-- nidubey@ucsc.edu -->
+
+ <!-- Chinese Dragon -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8" />
+    <title>Draw a point (1)</title>
+    </head>
+
+    <body onload="main()">
+        <div class="container">
+            <canvas id="webgl" width="1200" height="800" style="position: absolute; z-index: 0">
+                Please use a browser that supports "canvas".
+            </canvas>
+            <canvas id="hud" width="1200" height="800" style="position: absolute; z-index: 1"></canvas>
+        </div>        
+
+        <div class="controls">
+            <p id="numdot">XXX</p>
+            Click to kill enemies. Right click to create blocks.
+            <p></p>
+            <button type="button" id="restart">Restart</button>
+            <button type="button" id="resRot">Reset View</button>
+            <button type="button" id="onP">Animation</button>
+        
+            <p>Rotation Sensitivity</p>
+            <input type="range" min="1" max="4" value="1" class="slider" id="rotationFactor">
+        </div>
+        
+        <script src="../libs/webgl-utils.js"></script>
+        <script src="../libs/cuon-matrix.js"></script>
+        <script src="../libs/webgl-debug.js"></script>
+        <script src="../libs/cuon-utils.js"></script>
+        <script src="World.js"></script>
+        <script src="Point.js"></script>
+        <script src="Triangle.js"></script>
+        <script src="Circle.js"></script>
+        <script src="CubeMod.js"></script>
+        <script src="CubeMod_Rep.js"></script>
+        <script src="RoundedCube.js"></script>
+        <script src="Triangle3D.js"></script>
+        <script src="Cylinder.js"></script>
+        <script src="Dragon.js"></script>
+        <script src="Camera.js"></script>
+        <script src="Texture.js"></script>
+        <script src="Setup.js"></script>
+        <script src="ZombieMan.js"></script>
+        <script src="Crosshair.js"></script>
+        <script src="Shotgun.js"></script>
+        <script src="Pistol.js"></script>
+        <script src="Health.js"></script>
+        <script src="Ammo.js"></script>
+        <script src="MouseKeyHandler.js"></script>
+
+    </body>
+
+    <style>
+        .container {
+            display: flex;         /* Use Flexbox */
+            position: relative;
+        }
+
+        canvas {
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+        
+        #crosshair-canvas {
+            pointer-events: none; /* Prevents mouse interaction */
+        }
+    
+        .controls {
+            position: relative; /* Ensure buttons appear above the canvas */
+            z-index: 3; /* Higher than both canvases */
+            margin-top: 800px; /* Push below canvas */
+            text-align: left; /* Center the buttons */
+            background: rgba(255, 255, 255, 0.8); /* Optional: Add a background for visibility */
+            padding: 10px; /* Add spacing */
+            border-radius: 8px; /* Smooth edges */
+        }
+    </style>
+</html>
