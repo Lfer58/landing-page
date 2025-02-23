@@ -7,7 +7,7 @@ class Camera {
     this.g_eye = [0,this.startingHeight,-4.5];
     this.g_at = [0,this.startingHeight,95.5];
     this.g_up = [0,1,0];
-    this.speed = 0.25;
+    this.speed = 0.2;
     this.cameraSpeed = 1.25;
     this.targetThreshold = 6;
     this.actualHeight = this.startingHeight;
@@ -24,7 +24,7 @@ class Camera {
     this.hurt.volume = 0.5; // Adjust volume if necessary
   }
 
-  damagePlayer(enemyDamage, enemyPos) {
+  damagePlayer(enemyDamage, enemyPos, monsterInd) {
     
     var d = new Vector3([enemyPos[0], 0, enemyPos[2]]);
     var player = new Vector3([this.g_eye[0], 0, this.g_eye[2]]);
@@ -36,6 +36,7 @@ class Camera {
     let damageCooldown = 0.5; 
 
     if (distance < 0.3 && g_seconds - this.lastDamageTime > damageCooldown) {
+      monsterPos[monsterInd][1] *= 2;
       this.health -= enemyDamage;
       this.lastDamageTime = g_seconds;
       this.hurt.currentTime = 0; // Reset sound to start
@@ -91,7 +92,7 @@ class Camera {
 
       return null;
 
-    } else if (map_output_1 === 0
+    } else if (map_output_1 === 0 
       && Math.abs(map_output_2 - this.actualHeight) < 0.5) {
 
       let targetHeight = map_output_2; // reset to base height
@@ -100,6 +101,17 @@ class Camera {
       // Smoothly interpolate height
       this.actualHeight += (targetHeight - this.actualHeight) * stepSpeed;
       return 1;
+
+    } else if (map_output_1 === 2) {
+      console.log("hitting items")
+      if (map_output_2[2] === 0) {
+        camera.health += 10;
+      } else if (map_output_2[2] === 1) {
+        camera.ammo += 5;
+      }
+
+      mapMatrix[c_Xcoords + 100][c_Zcoords + 100][1][0] = 0;
+
     }
   }
 

@@ -39,32 +39,32 @@ function mouseHandler() {
     // [x, y] = converCoordinatesEventToGL(ev);
   
     // angleUpdater(x,y, g_rotation_factor, ev);
+
+    if (document.pointerLockElement !== hud) {
+      hud.requestPointerLock();
+    }
   
   
     if (document.pointerLockElement === hud) {
-      if (ev.buttons === 1 && camera.ammo > 0) {
-        if (!shotgun.shooting) {
+      if (ev.buttons === 1 && !playgroud) {
+        if (camera.ammo > 0 && !shotgun.shooting) {
           initalizeTargetVec(0);
           camera.ammo -= 1;
+          shotgun.startAnimation();
         }
-        shotgun.startAnimation();
+      } else if (ev.buttons === 1) {
+        initalizeTargetVec(0);
       } else if (ev.buttons === 2) {
         initalizeTargetVec(1);
       }
     }
-  
-    hud.requestPointerLock();
-  
-    //Draw eveyr shape that is supposed to be in the canvas
-    renderAllShapes();
   }
+  
   
   function mouseMove(ev) {
   
-    if (ev.buttons === 1) {
-      initalizeTargetVec(0);
-    } else if (ev.buttons === 2) {
-      initalizeTargetVec(1);
+    if (ev.buttons === 1 || ev.buttons === 2) {
+      click(ev);
     }
   
     target_vectors = camera.clickTarget();
@@ -114,22 +114,31 @@ function mouseHandler() {
     if (keys["d"]) {
       camera.moveHorizontal(-1);
     }
-    // if (keys["q"]) {
-    //   camera.panHorizontal(1);
-    // }
-    // if (keys["e"]) {
-    //   camera.panHorizontal(-1);
-    // }
-    // if (keys["z"]) {
-    //   camera.panVertical(1);
-    // }
-    // if (keys["x"]) {
-    //   camera.panVertical(-1);
-    // }
     if (keys["o"]) {
       camera.moveYAxis(1);
     }
     if (keys["p"]) {
       camera.moveYAxis(-1);
+    }
+    if (keys["1"]) {
+      chosenTexture = 1;
+    }
+    if (keys["2"]) {
+      chosenTexture = 2;
+    }
+    if (keys["3"]) {
+      chosenTexture = 3;
+    }
+    if (keys["4"]) {
+      chosenTexture = 4;
+    }
+    if (keys["5"]) {
+      chosenTexture = 5;
+    }
+    if (keys["6"]) {
+      chosenTexture = 6;
+    }
+    if (keys["7"]) {
+      chosenTexture = 7;
     }
   }

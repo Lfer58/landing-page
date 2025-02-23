@@ -20,11 +20,16 @@
 
         <div class="controls">
             <p id="numdot">XXX</p>
-            Click to kill enemies. Right click to create blocks.
-            <p></p>
+            Click to kill enemies.
+            <p>
+            Playground mode teleports to a base to add/delete blocks. Keys 1-7 allow to choose texture.
+            <p>
+            WARNING: After playground mode, to restart, reload the website.
+            <p>
             <button type="button" id="restart">Restart</button>
             <button type="button" id="resRot">Reset View</button>
             <button type="button" id="onP">Animation</button>
+            <button type="button" id="playground">PlayGround</button>
         
             <p>Rotation Sensitivity</p>
             <input type="range" min="1" max="4" value="1" class="slider" id="rotationFactor">
@@ -47,13 +52,19 @@
         <script src="Camera.js"></script>
         <script src="Texture.js"></script>
         <script src="Setup.js"></script>
+        <script src="Monster.js"></script>
         <script src="ZombieMan.js"></script>
+        <script src="CyberDemon.js"></script>
         <script src="Crosshair.js"></script>
         <script src="Shotgun.js"></script>
         <script src="Pistol.js"></script>
         <script src="Health.js"></script>
         <script src="Ammo.js"></script>
         <script src="MouseKeyHandler.js"></script>
+        <script src="Pickup.js"></script>
+        <script src="HealthItem.js"></script>
+        <script src="AmmoItem.js"></script>
+        <script src="BlockSelect.js"></script>
 
     </body>
 

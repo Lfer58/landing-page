@@ -132,6 +132,58 @@ function initTextures() {
     image9.src = '../img/stairs/SPACEAP_V.png';
   }
 
+  {
+    var image10 = new Image();  // Create the image object
+    if (!image10) {
+      console.log('Failed to create the image10 object');
+      return false;
+    }
+  
+    // Register the event handler to be called on loading an image
+    image10.onload = function(){ sendTextureToTEXTURE10(image10); };
+    // Tell the browser to load an image
+    image10.src = '../img/monster/cyberdemon/cybra1.png';
+  }
+
+  {
+    var image11 = new Image();  // Create the image object
+    if (!image11) {
+      console.log('Failed to create the image11 object');
+      return false;
+    }
+  
+    // Register the event handler to be called on loading an image
+    image11.onload = function(){ sendTextureToTEXTURE11(image11); };
+    // Tell the browser to load an image
+    image11.src = '../img/monster/cyberdemon/cybro2.png';
+  }
+
+  {
+    var image12 = new Image();  // Create the image object
+    if (!image12) {
+      console.log('Failed to create the image12 object');
+      return false;
+    }
+  
+    // Register the event handler to be called on loading an image
+    image12.onload = function(){ sendTextureToTEXTURE12(image12); };
+    // Tell the browser to load an image
+    image12.src = '../img/pickups/broka0.png';
+  }
+
+  {
+    var image13 = new Image();  // Create the image object
+    if (!image13) {
+      console.log('Failed to create the image13 object');
+      return false;
+    }
+  
+    // Register the event handler to be called on loading an image
+    image13.onload = function(){ sendTextureToTEXTURE13(image13); };
+    // Tell the browser to load an image
+    image13.src = '../img/pickups/media0.png';
+  }
+
   return true;
 }
   
@@ -394,4 +446,108 @@ function sendTextureToTEXTURE9(image) {
   
   // Set the texture unit 0 to the sampler
   gl.uniform1i(u_Sampler9, 9);
+}
+
+function sendTextureToTEXTURE10(image) {
+
+  var texture = gl.createTexture();   // Create a texture object
+  if (!texture) {
+    console.log('Failed to create the texture object');
+    return false;
+  }
+
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1); // Flip the image's y axis
+  // Enable texture unit0
+  gl.activeTexture(gl.TEXTURE10);
+  // Bind the texture object to the target
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+
+  // Set the texture parameters
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  // Set the texture image
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT); // Repeat in the S direction
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT); // Repeat in the T direction
+  
+  // Set the texture unit 0 to the sampler
+  gl.uniform1i(u_Sampler10, 10);
+}
+
+function sendTextureToTEXTURE11(image) {
+
+  var texture = gl.createTexture();   // Create a texture object
+  if (!texture) {
+    console.log('Failed to create the texture object');
+    return false;
+  }
+
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1); // Flip the image's y axis
+  // Enable texture unit0
+  gl.activeTexture(gl.TEXTURE11);
+  // Bind the texture object to the target
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+
+  // Set the texture parameters
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  // Set the texture image
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT); // Repeat in the S direction
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT); // Repeat in the T direction
+  
+  // Set the texture unit 0 to the sampler
+  gl.uniform1i(u_Sampler11, 11);
+}
+
+function sendTextureToTEXTURE12(image) {
+
+  var texture = gl.createTexture();   // Create a texture object
+  if (!texture) {
+    console.log('Failed to create the texture object');
+    return false;
+  }
+
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1); // Flip the image's y axis
+  // Enable texture unit0
+  gl.activeTexture(gl.TEXTURE12);
+  // Bind the texture object to the target
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+
+  // Set the texture parameters
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  // Set the texture image
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT); // Repeat in the S direction
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT); // Repeat in the T direction
+  
+  // Set the texture unit 0 to the sampler
+  gl.uniform1i(u_Sampler12, 12);
+}
+
+function sendTextureToTEXTURE13(image) {
+
+  var texture = gl.createTexture();   // Create a texture object
+  if (!texture) {
+    console.log('Failed to create the texture object');
+    return false;
+  }
+
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1); // Flip the image's y axis
+  // Enable texture unit0
+  gl.activeTexture(gl.TEXTURE13);
+  // Bind the texture object to the target
+  gl.bindTexture(gl.TEXTURE_2D, texture);
+
+  // Set the texture parameters
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+  // Set the texture image
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, image);
+
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT); // Repeat in the S direction
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT); // Repeat in the T direction
+  
+  // Set the texture unit 0 to the sampler
+  gl.uniform1i(u_Sampler13, 13);
 }

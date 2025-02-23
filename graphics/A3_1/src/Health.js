@@ -41,7 +41,7 @@ class Health {
         let health_2 = parseInt(health[1]); // Tens place
         let health_3 = parseInt(health[0]); // Hundreds place
 
-        ctx.clearRect(this.c_midx - 400, this.c_midy, 300, 400);
+        ctx.clearRect(this.c_midx - 400, this.c_midy, 250, 400);
         let img = this.images[10];
         ctx.drawImage(img, this.c_midx - 300, this.c_midy + 200, 150, 20);
 

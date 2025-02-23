@@ -28,6 +28,10 @@ var FSHADER_SOURCE = `
   uniform sampler2D u_Sampler7;
   uniform sampler2D u_Sampler8;
   uniform sampler2D u_Sampler9;
+  uniform sampler2D u_Sampler10;
+  uniform sampler2D u_Sampler11;
+  uniform sampler2D u_Sampler12;
+  uniform sampler2D u_Sampler13;
   uniform int u_WhichTexture;
 
   void main() {
@@ -60,21 +64,41 @@ var FSHADER_SOURCE = `
       gl_FragColor = texColor;
 
     } else if (u_WhichTexture == 6) { // use zombie_man
-    vec4 texColor = texture2D(u_Sampler6, v_UV);
-    // if (texColor.a < 0.1) discard; // Discard fully transparent pixels
-    gl_FragColor = texColor;
+      vec4 texColor = texture2D(u_Sampler6, v_UV);
+      if (texColor.a < 0.1) discard; // Discard fully transparent pixels
+      gl_FragColor = texColor;
     
     } else if (u_WhichTexture == 7) { // use zombie_man_death
-    vec4 texColor = texture2D(u_Sampler7, v_UV);
-    // if (texColor.a < 0.1) discard; // Discard fully transparent pixels
-    gl_FragColor = texColor;
+      vec4 texColor = texture2D(u_Sampler7, v_UV);
+      if (texColor.a < 0.1) discard; // Discard fully transparent pixels
+      gl_FragColor = texColor;
     
-    } else if (u_WhichTexture == 8) { // use floor_1
+    } else if (u_WhichTexture == 8) { // use cieling_1
       vec4 texColor = texture2D(u_Sampler8, v_UV);
       gl_FragColor = texColor;
 
     } else if (u_WhichTexture == 9) { // use vertical stairs
       vec4 texColor = texture2D(u_Sampler9, v_UV);
+      gl_FragColor = texColor;
+
+    } else if (u_WhichTexture == 10) { // use cyber_demon
+      vec4 texColor = texture2D(u_Sampler10, v_UV);
+      if (texColor.a < 0.1) discard; // Discard fully transparent pixels
+      gl_FragColor = texColor;
+
+    } else if (u_WhichTexture == 11) { // use cyber_demon death
+      vec4 texColor = texture2D(u_Sampler11, v_UV);
+      if (texColor.a < 0.1) discard; // Discard fully transparent pixels
+      gl_FragColor = texColor;
+
+    } else if (u_WhichTexture == 12) { // use health pack
+      vec4 texColor = texture2D(u_Sampler12, v_UV);
+      if (texColor.a < 0.1) discard; // Discard fully transparent pixels
+      gl_FragColor = texColor;
+
+    } else if (u_WhichTexture == 13) { // use ammo pack
+      vec4 texColor = texture2D(u_Sampler13, v_UV);
+      if (texColor.a < 0.1) discard; // Discard fully transparent pixels
       gl_FragColor = texColor;
 
     } else {
@@ -90,8 +114,8 @@ let a_Position;
 let u_FragColor;
 let u_ModelMatrix;
 let u_Sampler0, u_Sampler1, u_Sampler2, u_Sampler3, u_Sampler4, u_Sampler5, u_Sampler6, u_Sampler7;
-let u_Sampler8, u_Sampler9;
-var crosshair, shotgun, pistol, health, ammo;
+let u_Sampler8, u_Sampler9, u_Sampler10, u_Sampler11, u_Sampler12, u_Sampler13;
+var crosshair, shotgun, pistol, health, ammo, BlockSelected;
 
 function setupWebGL() {
     // Retrieve <canvas> element
@@ -112,6 +136,7 @@ function setupWebGL() {
   pistol = new Pistol();
   health = new Health();
   ammo = new Ammo();
+  BlockSelected = new BlockSelect();
 
   gl.enable(gl.DEPTH_TEST);
   gl.enable(gl.BLEND);
@@ -254,7 +279,35 @@ function connectVariablesToGLSL() {
     return false;
   }
 
-  // Get the storage location of u_Sampler2
+  // Get the storage location of u_Sampler10
+  u_Sampler10 = gl.getUniformLocation(gl.program, 'u_Sampler10');
+  if (!u_Sampler10) {
+    console.log('Failed to get the storage location of u_Sampler10');
+    return false;
+  }
+
+  // Get the storage location of u_Sampler11
+  u_Sampler11 = gl.getUniformLocation(gl.program, 'u_Sampler11');
+  if (!u_Sampler11) {
+    console.log('Failed to get the storage location of u_Sampler11');
+    return false;
+  }
+
+  // Get the storage location of u_Sampler12
+  u_Sampler12 = gl.getUniformLocation(gl.program, 'u_Sampler12');
+  if (!u_Sampler12) {
+    console.log('Failed to get the storage location of u_Sampler12');
+    return false;
+  }
+
+  // Get the storage location of u_Sampler11
+  u_Sampler13 = gl.getUniformLocation(gl.program, 'u_Sampler13');
+  if (!u_Sampler13) {
+    console.log('Failed to get the storage location of u_Sampler13');
+    return false;
+  }
+
+  // Get the storage location of u_WhichTexture
   u_WhichTexture = gl.getUniformLocation(gl.program, 'u_WhichTexture');
   if (!u_WhichTexture) {
     console.log('Failed to get the storage location of u_WhichTexture');
@@ -274,8 +327,9 @@ function addActionsForHtmlUI() {
 
   // Button events
   document.getElementById('restart').onclick = function() {  restart();};
-  document.getElementById('resRot').onclick = function() {  camera.resetView(); renderAllShapes();};
+  document.getElementById('resRot').onclick = function() {  camera.resetView();};
   document.getElementById('onP').onclick = function() {  g_Animation = !g_Animation;}
+  document.getElementById('playground').onclick = function() {  playgroundMode();}
 
 
 }
