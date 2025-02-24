@@ -1,7 +1,7 @@
 <!-- Keshav Dubey -->
  <!-- nidubey@ucsc.edu -->
 
- <!-- Chinese Dragon -->
+ <!-- Doom 64 -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,17 +22,26 @@
             <p id="numdot">XXX</p>
             Click to kill enemies.
             <p>
-            Playground mode teleports to a base to add/delete blocks. Keys 1-7 allow to choose texture.
+            Playground mode teleports to a base 
+            <br>
+            to add/delete blocks. 
+            <br>
+            Keys 1-7 allow to choose texture.
             <p>
-            WARNING: After playground mode, to restart, reload the website.
+            WARNING: After playground mode, 
+            <br>
+            to restart reload the website.
             <p>
             <button type="button" id="restart">Restart</button>
+            <p>
             <button type="button" id="resRot">Reset View</button>
+            <p>
             <button type="button" id="onP">Animation</button>
+            <p>
             <button type="button" id="playground">PlayGround</button>
-        
-            <p>Rotation Sensitivity</p>
-            <input type="range" min="1" max="4" value="1" class="slider" id="rotationFactor">
+            <p>
+            <button type="button" id="clearGround">Clear Ground</button>
+            <p>
         </div>
         
         <script src="../libs/webgl-utils.js"></script>
@@ -69,9 +78,19 @@
     </body>
 
     <style>
+        body {
+            background-image: url('../img/background.png'); /* Path to your image */
+            background-size: cover;  /* Ensures the image covers the entire screen */
+            background-position: center; /* Centers the image on the page */
+            background-repeat: no-repeat; /* Prevents repeating the image */
+            height: 100vh;  /* Ensures the background covers the full viewport height */
+            margin: 0; /* Removes default body margin */
+        }
+        
         .container {
             display: flex;         /* Use Flexbox */
             position: relative;
+            justify-content: center; /* Centers canvas horizontally */
         }
 
         canvas {
@@ -81,15 +100,19 @@
         #crosshair-canvas {
             pointer-events: none; /* Prevents mouse interaction */
         }
-    
+
         .controls {
-            position: relative; /* Ensure buttons appear above the canvas */
-            z-index: 3; /* Higher than both canvases */
-            margin-top: 800px; /* Push below canvas */
-            text-align: left; /* Center the buttons */
-            background: rgba(255, 255, 255, 0.8); /* Optional: Add a background for visibility */
-            padding: 10px; /* Add spacing */
-            border-radius: 8px; /* Smooth edges */
+            margin: 0;  /* Remove any extra margins */
+            position: absolute; /* Fixes it relative to the parent container */
+            left: 0; /* Aligns to the left */
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            gap: 10px; /* Space between buttons */
+            background: rgba(52, 42, 42, 0.8); /* Slight background for visibility */
+            padding: 25px;
+            border-radius: 8px;
+            color: white; /* Set font color to white */
         }
+
     </style>
 </html>

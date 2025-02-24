@@ -93,7 +93,7 @@ class Camera {
       return null;
 
     } else if (map_output_1 === 0 
-      && Math.abs(map_output_2 - this.actualHeight) < 0.5) {
+      && Math.abs(map_output_2 - this.actualHeight) < 0.75) {
 
       let targetHeight = map_output_2; // reset to base height
       let stepSpeed = 0.5; // Speed of transition (adjust as needed)
@@ -106,8 +106,10 @@ class Camera {
       console.log("hitting items")
       if (map_output_2[2] === 0) {
         camera.health += 10;
+        healthPickup.play();
       } else if (map_output_2[2] === 1) {
         camera.ammo += 5;
+        ammoPickup.play();
       }
 
       mapMatrix[c_Xcoords + 100][c_Zcoords + 100][1][0] = 0;

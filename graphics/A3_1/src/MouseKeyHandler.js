@@ -33,6 +33,14 @@ function mouseHandler() {
   
     renderAllShapes();
   }
+
+document.addEventListener('pointerlockchange', () => {
+  if (document.pointerLockElement === null) {
+      console.log("Pointer lock exited");
+      bg.pause();
+      playMusic.pause();
+  }
+});
   
   function click(ev) {
   
@@ -46,7 +54,7 @@ function mouseHandler() {
   
   
     if (document.pointerLockElement === hud) {
-      if (ev.buttons === 1 && !playgroud) {
+      if (ev.buttons === 1 && !playground) {
         if (camera.ammo > 0 && !shotgun.shooting) {
           initalizeTargetVec(0);
           camera.ammo -= 1;
@@ -70,6 +78,11 @@ function mouseHandler() {
     target_vectors = camera.clickTarget();
   
     if (document.pointerLockElement === hud) {
+      if (!playground) {
+        bg.play(); // Play sound on firing
+      } else {
+        playMusic.play();
+      }
       if (ev.movementX > 0) {
         camera.panHorizontal(-1, ev.movementX);
       } else if (ev.movementX < 0) {
@@ -97,10 +110,6 @@ function mouseHandler() {
   // }
   
   function keyHandler() {
-    if (keys["Escape"] && document.pointerLockElement === hud) {
-      // Exit pointer lock on ESC key
-      document.exitPointerLock();
-    }
   
     if (keys["w"]) {
       camera.moveZAxis(1);

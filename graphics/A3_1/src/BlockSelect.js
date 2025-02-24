@@ -5,8 +5,8 @@ class BlockSelect {
             '../img/sky/starry_sky1.png',
             '../img/floor/SDFLTAC.png',
             '../img/walls/SPACECL.png',
-            '../img/ceiling/SDFLTBB.png',
             '../img/stairs/SPACEAP.png',
+            '../img/ceiling/SDFLTBB.png',
             '../img/stairs/SPACEAP_V.png'
         ];
 
@@ -34,6 +34,8 @@ class BlockSelect {
     
         // Clear previous content
         ctx.clearRect(x - padding, y - padding, width + padding * 2, height + padding * 2);
+
+        ctx.clearRect(x + 100, y - 100, 800, 500);
     
         // Draw semi-transparent gray background
         ctx.fillStyle = "rgba(100, 100, 100, 0.5)";  // Gray with 50% transparency

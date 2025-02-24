@@ -29,7 +29,7 @@ function main() {
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 }
 
-let playgroud = false;
+let playground = false;
 let chosenTexture = 1;
 
 let previousTime = Date.now();
@@ -58,7 +58,7 @@ function initalizeTargetVec(action) {
   if (action === 0) {
     for (var i = 0; i < target_vectors.length; i++) {
 
-      if (!playgroud) {
+      if (!playground) {
         let [x, y, z] = target_vectors[i];
 
         x = Math.round(x * 2) + 100;
@@ -115,7 +115,7 @@ function initalizeTargetVec(action) {
         && matrix[x][z][y] && matrix[x][z][y][0] === 1 
         && g_seconds - lastBlockHandle > block_CoolDown) {
 
-          matrix[lx][lz][ly] = [1,chosenTexture];
+          matrix[lx][lz][ly] = [1,playgroundTextures[chosenTexture - 1]];
           lastBlockHandle = g_seconds;
           return;
       }
@@ -123,28 +123,33 @@ function initalizeTargetVec(action) {
     }
 
     if (target_vectors.length > 0 && g_seconds - lastBlockHandle > block_CoolDown) {
-      matrix[lx][lz][ly] = [1,chosenTexture];
+      matrix[lx][lz][ly] = [1,playgroundTextures[chosenTexture - 1]];
       lastBlockHandle = g_seconds;
     }
   }
 }
 
 const matrix = [];
-function loadMap() {
+
+function clearGround() {
   for (let x = 0; x <= 200; x++) {
     matrix[x] = [];
     for (let z = 0; z <= 200; z++) {
       matrix[x][z] = [];
       for (let y = 0; y <= 50; y++) {
-        matrix[x][z][y] = 0;  // Pre-fill all values with 0
+        matrix[x][z][y] = [0,0];  // Pre-fill all values with 0
       }
     }
   }
+}
+function loadMap() {
 
-  let waveHeight = 1.5; // Controls amplitude of sine wave
+  clearGround();
+
+  let waveHeight = 0.75; // Controls amplitude of sine wave
   let frequency = 1; // Controls frequency of wave
   let height_adjustment = 1;
-  var textures = [1, 3, 4];
+  var textures = [3, 4, 9];
   let texNum = 0;
   for (let i = -47; i < -47 + 21; i += 0.5) {
     for (let j = 26; j < 26 + 21; j += 0.5) {
@@ -198,7 +203,7 @@ function drawMap() {
 
 function playgroundMode () {
 
-  playgroud = true;
+  playground = true;
 
   monsterPos = [];
 
@@ -214,6 +219,22 @@ var g_startTime = performance.now()/1000.0;
 var g_seconds = performance.now()/1000.0 - g_startTime;
 
 let deltaTime = null;
+let bg = new Audio("../sounds/The Only Thing They Fear Is You.mp3")
+bg.volume = 0.25;
+let playMusic = new Audio ("../sounds/1-19. Cat.mp3")
+playMusic.volume = 0.4;
+
+let zombHurt = new Audio("../sounds/dsbgdth1.wav");
+zombHurt.volume = 0.3;
+
+let demHurt = new Audio("../sounds/dsposit3.wav");
+demHurt.volume = 0.3;
+
+let healthPickup = new Audio("../sounds/dsitemup.wav");
+healthPickup.volume = 1.0;
+
+let ammoPickup = new Audio("../sounds/dswpnup.wav");
+ammoPickup.volume = 0.5;
 
 //called by brower repeatdely whenever its time
 function tick() {
@@ -246,10 +267,10 @@ function initMapMatrix() {
   currentPos = [];
   prevPos = [];
 
-  markWallOnMatrix(-49, -6, 50, 0);
-  markWallOnMatrix(-49, -6, 0, 55);
-  markWallOnMatrix(-49, 49, 63.5, 0);
-  markWallOnMatrix(14.5, 23, 0, 30);
+  markWallOnMatrix(-49, -6, 50, 0,-0.5, 50);
+  markWallOnMatrix(-49, -6, 0, 55,-0.5, 50);
+  markWallOnMatrix(-49, 49, 63.5, 0,-0.5, 25);
+  markWallOnMatrix(14.5, 23, 0, 30,-0.5, 50);
 }
 
 // Function to mark wall positions in mapMatrix
@@ -309,7 +330,7 @@ function markPickups(center, height_basis, type) {
 
 function restart() {
 
-  playgroud = false;
+  playground = false;
 
   camera.resetView();
   camera.ammo = 20;
@@ -370,6 +391,7 @@ function initMonsterPos() {
   monsterPos.push([[-22, -0.5, 17], 7, 0, 0.6]); // outside
   monsterPos.push([[1.5, -0.5, 13], 5, 0, 0.6]); // central chamber
   monsterPos.push([[11, -0.5, 21], 2, 0, 0.6]); // right area
+  // monsterPos = [];
 }
 
 function initMonsterHealth() {
@@ -386,6 +408,8 @@ function initMonsterHealth() {
 function centerFind (cornerPos, scale) {
   return [cornerPos[0] + scale[0] / 2, cornerPos[1] + scale[1] / 2, cornerPos[2] + scale[2] /2]
 }
+
+let playgroundTextures = [1, 2, 3, 4, 5, 8, 9]
 
 function renderAllShapes() {
 
@@ -405,7 +429,7 @@ function renderAllShapes() {
   health.render();
   ammo.render();
 
-  if (playgroud) {
+  if (playground) {
     drawMap();
     BlockSelected.render(chosenTexture);
   }
@@ -424,7 +448,7 @@ function renderAllShapes() {
   scale = [23, 0.25, 23]
   buildForm = new CubeMod_Rep(base_color, ...scale, 2, 5);
   renderWalls(buildForm, cornerPos, scale);
-  markElevation(-49, 24, 25, 25, camera.actualHeight + 0.25)
+  markElevation(-49, 24, 25, 25, camera.actualHeight + 0.5)
 
   cornerPos = [-50, -0.5, -50]
   scale = [100, 0, 100]
@@ -443,7 +467,7 @@ function renderAllShapes() {
   sky.textureNum = 2;
   sky.render();
 
-  if (!playgroud) {
+  if (!playground) {
   // room 1
   // side wall 1
     cornerPos = [1.5, -0.5, -6]

@@ -330,6 +330,7 @@ function addActionsForHtmlUI() {
   document.getElementById('resRot').onclick = function() {  camera.resetView();};
   document.getElementById('onP').onclick = function() {  g_Animation = !g_Animation;}
   document.getElementById('playground').onclick = function() {  playgroundMode();}
+  document.getElementById('clearGround').onclick = function() {  if (playground) { clearGround();}}
 
 
 }

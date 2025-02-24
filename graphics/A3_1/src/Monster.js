@@ -1,6 +1,6 @@
 class Monster {
   constructor(position, track_form, index, health, height_basis, 
-      color, scale, sight, speed, damage, top, bottom, textureNum) {
+      color, scale, sight, speed, damage, top, bottom, textureNum, sound) {
     this.track_form = track_form;
     this.cornerPos = position;
     this.index = index;
@@ -27,6 +27,13 @@ class Monster {
       monsterHealth[index] -= 25;
       monsterPos[index][1] *= 2;
       console.log(this.health);
+      if (sound === 0) {
+        zombHurt.currentTime = 0;
+        zombHurt.play();
+      } else {
+        demHurt.currentTime = 0;
+        demHurt.play();
+      }
     }
   }
 
@@ -49,7 +56,7 @@ class Monster {
 
   track() {
 
-    if (Math.abs(this.height_basis - camera.actualHeight) > 0.76) {
+    if (Math.abs(this.height_basis - camera.actualHeight) > 0.2) {
       return;
     }
 
