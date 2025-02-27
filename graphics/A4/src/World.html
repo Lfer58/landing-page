@@ -1,0 +1,135 @@
+<!-- Keshav Dubey -->
+ <!-- nidubey@ucsc.edu -->
+
+ <!-- Doom 64: With Two Lights -->
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8" />
+    <title>Draw a point (1)</title>
+    </head>
+
+    <body onload="main()">
+        <div class="container">
+            <canvas id="webgl" width="1200" height="800" style="position: absolute; z-index: 0">
+                Please use a browser that supports "canvas".
+            </canvas>
+            <canvas id="hud" width="1200" height="800" style="position: absolute; z-index: 1"></canvas>
+        </div>        
+
+        <div class="controls">
+            <p id="numdot">XXX</p>
+            Click to kill enemies.
+            <p>
+            Playground mode teleports to a base 
+            <br>
+            to add/delete blocks. 
+            <br>
+            Keys 1-7 allow to choose texture.
+            <p>
+            WARNING: After playground mode, 
+            <br>
+            to restart reload the website.
+            <p>
+            <button type="button" id="restart">Restart</button>
+            <br>
+            <button type="button" id="resRot">Reset View</button>
+            <br>
+            <button type="button" id="onP">Animation</button>
+            <br>
+            <button type="button" id="playground">PlayGround</button>
+            <br>
+            <button type="button" id="clearGround">Clear Ground</button>
+            <br>
+            <button type="button" id="normTogg">Normal Toggle</button>
+            <br>
+            <button type="button" id="lightTogg">Light Toggle</button>
+            <p>
+                Light X<input type="range" min= "-250" max="250" value = "0" class ="slider" id="slideX">
+            <p>
+                Light Y<input type="range" min= "-250" max="250" value = "0" class ="slider" id="slideY">
+            <p>
+                Light Z<input type="range" min= "-250" max="250" value = "0" class ="slider" id="slideZ">
+            <p>
+                Light Red<input type="range" min= "0" max="100" value = "0" class ="slider" id="slideR">
+            <p>
+                Light Green<input type="range" min= "0" max="100" value = "0" class ="slider" id="slideG">
+            <p>
+                Light Blue<input type="range" min= "0" max="100" value = "0" class ="slider" id="slideB">
+            <p>
+        </div>
+        
+        <script src="../libs/webgl-utils.js"></script>
+        <script src="../libs/cuon-matrix.js"></script>
+        <script src="../libs/webgl-debug.js"></script>
+        <script src="../libs/cuon-utils.js"></script>
+        <script src="World.js"></script>
+        <script src="Point.js"></script>
+        <script src="Triangle.js"></script>
+        <script src="Circle.js"></script>
+        <script src="CubeMod.js"></script>
+        <script src="CubeMod_Rep.js"></script>
+        <script src="RoundedCube.js"></script>
+        <script src="Triangle3D.js"></script>
+        <script src="Cylinder.js"></script>
+        <script src="Dragon.js"></script>
+        <script src="Camera.js"></script>
+        <script src="Texture.js"></script>
+        <script src="Setup.js"></script>
+        <script src="Monster.js"></script>
+        <script src="ZombieMan.js"></script>
+        <script src="CyberDemon.js"></script>
+        <script src="Crosshair.js"></script>
+        <script src="Shotgun.js"></script>
+        <script src="Pistol.js"></script>
+        <script src="Health.js"></script>
+        <script src="Ammo.js"></script>
+        <script src="MouseKeyHandler.js"></script>
+        <script src="Pickup.js"></script>
+        <script src="HealthItem.js"></script>
+        <script src="AmmoItem.js"></script>
+        <script src="BlockSelect.js"></script>
+        <script src="Sphere.js"></script>
+
+    </body>
+
+    <style>
+        body {
+            background-image: url('../img/background.png'); /* Path to your image */
+            background-size: cover;  /* Ensures the image covers the entire screen */
+            background-position: center; /* Centers the image on the page */
+            background-repeat: no-repeat; /* Prevents repeating the image */
+            height: 100vh;  /* Ensures the background covers the full viewport height */
+            margin: 0; /* Removes default body margin */
+        }
+        
+        .container {
+            display: flex;         /* Use Flexbox */
+            position: relative;
+            justify-content: center; /* Centers canvas horizontally */
+        }
+
+        canvas {
+            flex-shrink: 0; /* Prevent shrinking */
+        }
+        
+        #crosshair-canvas {
+            pointer-events: none; /* Prevents mouse interaction */
+        }
+
+        .controls {
+            margin: 0;  /* Remove any extra margins */
+            position: absolute; /* Fixes it relative to the parent container */
+            left: 0; /* Aligns to the left */
+            display: flex;
+            flex-direction: column; /* Stack buttons vertically */
+            gap: 10px; /* Space between buttons */
+            background: rgba(52, 42, 42, 0.8); /* Slight background for visibility */
+            padding: 25px;
+            border-radius: 8px;
+            color: white; /* Set font color to white */
+        }
+
+    </style>
+</html>
