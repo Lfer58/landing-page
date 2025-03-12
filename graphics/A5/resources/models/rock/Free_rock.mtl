@@ -1,0 +1,13 @@
+# Blender 4.3.2 MTL File: 'Free_rock.blend'
+# www.blender.org
+
+newmtl Free_rock
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd Free_rock_tex/Free_rock_Base_Color.jpg
+map_Ks Free_rock_tex/Free_rock_Specular.jpg
+map_Ns Free_rock_tex/Free_rock_Roughness.jpg
+map_Bump -bm 1.000000 Free_rock_tex/Free_rock_Normal_OpenGL.jpg

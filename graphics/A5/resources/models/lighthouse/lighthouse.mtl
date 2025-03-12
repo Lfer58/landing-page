@@ -1,0 +1,26 @@
+# Blender 3.5.0 MTL File: 'lighthouse_blender.blend'
+# www.blender.org
+
+newmtl lighthouse_base_texture
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd lighthouse_textures/base_basecolor.png
+map_Ns lighthouse_textures/base_roughness.png
+map_refl lighthouse_textures/base_metallic.png
+norm -bm 1.000000 lighthouse_textures/base_normal.png
+
+newmtl lighthouse_top_texture
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd lighthouse_textures/top_basecolor.png
+map_Ns lighthouse_textures/top_roughness.png
+map_refl lighthouse_textures/top_metallic.png
+norm -bm 1.000000 lighthouse_textures/top_normal.png

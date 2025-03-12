@@ -1,0 +1,12 @@
+# Blender 4.3.2 MTL File: 'uploads_files_3800055_Ocean4k.blend'
+# www.blender.org
+
+newmtl Material
+Ns 360.000000
+Ka 1.000000 0.500000 0.500000  # Ambient color (soft reddish tint)
+Kd 0.8 0.1 0.1                # Diffuse color (deep red-orange)
+Ks 0.300000 0.150000 0.150000  # Specular color (slightly reddish shine)
+Ke 0.100000 0.020000 0.020000  # Emission color (subtle glow)
+Ni 1.000000
+d 1.000000
+illum 2

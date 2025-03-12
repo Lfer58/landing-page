@@ -1,0 +1,12 @@
+# Blender 4.3.2 MTL File: 'uploads_files_3800055_Ocean4k.blend'
+# www.blender.org
+
+newmtl Material
+Ns 20.000000                     # Very soft reflections
+Ka 0.900000 0.700000 0.450000   # Darker, richer warm beige ambient color
+Kd 0.850000 0.650000 0.350000   # Deep golden-brown sand color
+Ks 0.120000 0.100000 0.080000   # Slightly stronger specular highlights
+Ke 0.030000 0.020000 0.010000   # Very subtle glow for warmth
+Ni 1.000000
+d 1.000000
+illum 2
